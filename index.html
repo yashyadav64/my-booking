@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TravelGo - Book Buses</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+    body {
+      background-color: #f2f7fb;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(to right, #007bff, #00c6ff);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      font-size: 28px;
+      font-weight: bold;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 4px 0;
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #007bff;
+        flex-direction: column;
+        width: 100%;
+        padding: 20px;
+      }
+      nav.active {
+        display: flex;
+      }
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    .hero {
+      background: url('https://etimg.etb2bimg.com/thumb/msid-108478658,imgsize-101699,width-1200,height=627,overlay-etauto,resizemode-75/aftermarket/67-of-online-bus-ticket-bookings-in-india-come-from-non-metros-redbus-report.jpg') center center/cover no-repeat;
+      height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 40px;
+      color: white;
+      background-blend-mode: overlay;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .hero h2 {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .search-box {
+      background: white;
+      padding: 25px;
+      max-width: 900px;
+      margin: -60px auto 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .search-box select, .search-box input[type="date"] {
+      flex: 1 1 180px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    .search-box button {
+      padding: 12px 30px;
+      background: #007bff;
+      color: white;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .search-box button:hover {
+      background: #005dc1;
+    }
+
+    .services {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 50px 20px;
+      background: #fff;
+    }
+    .services div {
+      text-align: center;
+      max-width: 220px;
+      margin: 20px;
+    }
+    .services img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+    }
+    .services h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .services p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    footer {
+      background: #343a40;
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+      font-size: 15px;
+    }
+    .services {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  padding: 40px 20px;
+  background: #fff;
+}
+
+.services div {
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.services div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.services img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 15px;
+}
+
+.services h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.services p {
+  font-size: 14px;
+  color: #666;
+}
+.festival-booking {
+  background: #f9f9f9;
+  padding: 30px 20px;
+  margin: 40px auto;
+}
+
+.festival-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background: #f5f5f5;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  gap: 20px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.left h3 {
+  margin-bottom: 5px;
+}
+
+.festive-code {
+  color: green;
+  font-weight: bold;
+}
+
+.months {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  justify-content: center;
+}
+
+.month-card {
+  border: 2px solid #ccc;
+  border-radius: 15px;
+  padding: 10px 20px;
+  text-align: center;
+  min-width: 100px;
+  cursor: pointer;
+}
+
+.month-card.aug {
+  border-color: #f87171;
+  color: #f43f5e;
+}
+
+.month-card.sep {
+  border-color: #60a5fa;
+  color: #3b82f6;
+}
+
+.fest {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.book-btn {
+  flex: 1;
+  text-align: right;
+}
+
+.book-btn button {
+  background: #ffe0e0;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.partner {
+  font-size: 12px;
+  color: #555;
+  margin-top: 5px;
+}
+h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .filters button {
+      padding: 8px 20px;
+      border: none;
+      background: #eee;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .filters button.active {
+      background: #000;
+      color: white;
+    }
+
+    .offers-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+
+    .offer-card {
+      width: 260px;
+      background: #ffe5e5;
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .offer-card.bus { background: #ffe5e5; }
+    .offer-card.train { background: #ffeef1; }
+
+    .tag {
+      background: #b69f9f;
+      color: white;
+      font-size: 13px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .offer-title {
+      font-size: 17px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .validity {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .coupon {
+      background: white;
+      padding: 10px 16px;
+      border-radius: 30px;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .coupon::before {
+      content: '🏷️';
+    }
+
+    .offer-img {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .offer-img img {
+      width: 100px;
+      height: auto;
+    }
+     .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      margin-left: 20px;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    li strong {
+      font-weight: 600;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>TravelGo</h1>
+  <div class="menu-toggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <nav id="navbar">
+    <a href="#">Home</a>
+    <a href="#">Book</a>
+    <a href="penal.html">Admin penal</a>
+    <a href="#">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Book Your Bus Easily</h2>
+  <p>Fast • Safe • Affordable</p>
+</section>
+
+<section class="search-box">
+  <select>
+    <option value="">From</option>
+    <option value="Indore">khargone</option>
+
+  
+  </select>
+
+  <select>
+    <option value="">To</option>
+    <option value="Indore">Indore</option>
+  </select>
+
+<input type="date" />
+  <a href="a1.html">
+    <button>Search Buses</button>
+  </a>
+</section>
+
+<section class="services">
+  <div>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfQc1pfxG_Mm9-tYQ12eovk5Ut9DV3tLYzOfIY7Y5Zd56OMZnlchsReQkwD9NmMMw4oDU&usqp=CAU" alt="Offers">
+    <h3>Top Deals</h3>
+    <p>Get flat ₹100 off on your first booking!</p>
+  </div>
+  <div>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ5eYZsIS0IvJcL-F06-JrnarYNQQdbrBbeA&s" alt="Insurance">
+    <h3>Insurance Cover</h3>
+    <p>Insure your journey starting ₹10 only.</p>
+  </div>
+  <div>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSjkXzCj6ZTIDfRlq6UfUsqjNj2JSmw32lSQ&s" alt="Support">
+    <h3>24x7 Help</h3>
+    <p>Support available even during midnight.</p>
+  </div>
+</section>
+
+
+<section class="festival-booking">
+  <div class="festival-container">
+    <div class="left">
+      <img src="https://cdn-icons-png.flaticon.com/512/2963/2963875.png" width="50" />
+      <div>
+        <h3>Book trains for festivals</h3>
+        <p>Book now to get confirmed ticket</p>
+        <p><strong>Get ₹100 off</strong> using code <span class="festive-code">FESTIVE</span></p>
+      </div>
+    </div>
+    <div class="months">
+      <div class="month-card aug">
+        <p><strong>Aug</strong></p>
+        <p class="fest">Raksha Bandhan</p>
+      </div>
+      <div class="month-card sep">
+        <p><strong>Sep</strong></p>
+        <p class="fest">Teja Dashmi</p>
+      </div>
+    </div>
+    <div class="book-btn">
+       <button>
+        🚆 Book trains now
+      </button>
+      <p class="partner">Authorised IRCTC partner</p>
+    </div>
+  </div>
+</section>
+
+<h2>Offers for you</h2>
+
+  <div class="filters">
+    <button class="active">All</button>
+    <button>Bus</button>
+    <button>Train</button>
+  </div>
+
+  <div class="offers-container">
+    <div class="offer-card bus">
+      <div class="tag">Bus</div>
+      <div class="offer-title">Save up to Rs 250 on bus tickets</div>
+      <div class="validity">Valid till 31 Jul</div>
+      <div class="coupon">FIRST</div>
+      <div class="offer-img"><img src="https://img.icons8.com/color/100/bus.png" alt="Bus"></div>
+    </div>
+
+    <div class="offer-card bus">
+      <div class="tag">Bus</div>
+      <div class="offer-title">Save upto Rs 500 with ICICI Netbanking</div>
+      <div class="validity">Valid till 31 Aug</div>
+      <div class="coupon">ICICI500</div>
+      <div class="offer-img"><img src="https://www.icicibank.com/content/dam/icicibank/india/managed-assets/images/blog/how-to-create-credit-card-pin-online-m.webp" alt="ICICI Bank"></div>
+    </div>
+
+    <div class="offer-card train">
+      <div class="tag">Train</div>
+      <div class="offer-title">Get Rs 60 off on train tickets</div>
+      <div class="validity">Valid till 31 Jul</div>
+      <div class="coupon">SUPERB60</div>
+      <div class="offer-img"><img src="https://img.icons8.com/color/100/train.png" alt="Train"></div>
+    </div>
+
+    <div class="offer-card train">
+      <div class="tag">Train</div>
+      <div class="offer-title">ZERO Convenience FEE</div>
+      <div class="validity">Valid till 31 Jul</div>
+      <div class="coupon">NOFEE</div>
+      <div class="offer-img"><img src="https://img.icons8.com/color/100/piggy-bank.png" alt="Piggy Bank"></div>
+    </div>
+  </div>
+
+
+    <div class="container">
+    <h2>Online Bus Ticket Booking on redBus</h2>
+
+    <p>redBus is India’s most trusted bus ticket booking platform. The platform offers an easy-to-use online bus booking service with over 56+ million satisfied customers. Partnering with over 5200+ bus operators, redBus offers affordable prices and various bus types to choose from. Also, provides secure payment options and exclusive offers for a smooth and convenient booking experience.</p>
+
+    <p>Planning a trip with RTC, Government bus operators like APSRTC, TGSRTC, KSRTC (Kerala), RSRTC or private operators like VRL and Orange Travels? redBus offers easy access to lakhs of routes and a wide range of bus types such as AC or Non-AC, Sleeper, Seater, Volvo and more. With a wide range of bus options and services, redBus ensures a reliable and comfortable journey for every passenger.</p>
+
+    <h3>How to Book Bus Tickets on redBus?</h3>
+    <p>Booking a bus ticket online on the redBus app or website is very simple. Follow the stepwise process for bus booking on redBus.</p>
+
+    <ul>
+      <li><strong>Enter Travel Details:</strong> Enter your source, destination & travel date to check the top-rated bus services available.</li>
+      <li><strong>Search Buses:</strong> Filter bus type, duration, bus timings, boarding and dropping point, number of seats available, user ratings & amenities for your desired route.</li>
+      <li><strong>Choose Buses:</strong> Select your preferred seat, boarding and dropping points. Once selected, check the ticket price details and proceed to pay.</li>
+      <li><strong>Enter Passenger Details:</strong> Fill in the passenger information and contact details.</li>
+      <li><strong>Payment:</strong> Once you fill in the information, click on “Proceed” to pay to complete the payment process.</li>
+      <li><strong>Ticket Confirmation:</strong> After the payment process, receive the bus ticket confirmation on your registered email ID or mobile number.</li>
+    </ul>
+
+    <p>With redBus, get assured safe & secure payment methods and guaranteed travel with the best seat and bus operator of your choice at an affordable bus ticket price.</p>
+  </div>
+
+<footer>
+  <p>&copy; 2025 TravelGo. Designed by arun verma</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navbar').classList.toggle('active');
+  }
+</script>
+</body>
+</html>
